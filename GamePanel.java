@@ -98,11 +98,44 @@ public class GamePanel extends JPanel implements ActionListener{
 
     }
 
+    //check coordinates of the snake and the apple
     public void checkApple(){
+        if((x[0]==appleX) && y[0]==appleY){
+            bodyParts++;
+            applesEaten++;
+            newApple();
+        }
 
     }
 
     public void checkCollisions(){
+        //check if head collides with body
+        for(int i=bodyParts; i>0; i--){
+            if((x[0]==x[i]) && y[0]==y[i]){
+                running = false; //trigger gameOver method
+            }
+        }
+
+        //check if head touches borders
+        if(x[0] < 0){ //left
+            running = false; 
+        }
+
+        if(x[0] > SCREEN_WIDTH){ //right    
+            running = false; 
+        }
+
+        if(y[0] < 0){ //top
+            running = false; 
+        }
+
+        if(y[0] > SCREEN_HEIGHT){ //bottom    
+            running = false; 
+        }
+
+        if(!running){
+            timer.stop();
+        }
 
     }
 
@@ -124,6 +157,33 @@ public class GamePanel extends JPanel implements ActionListener{
     public class MyKeyAdapter extends KeyAdapter{
         @Override
         public void keyPressed(KeyEvent e){
+            switch(e.getKeyCode()){
+                case KeyEvent.VK_LEFT:
+                    if(direction != 'R'){
+                        direction = 'L';
+                    }
+                break;
+
+                case KeyEvent.VK_RIGHT:
+                    if(direction != 'L'){
+                        direction = 'R';
+                    }
+                break;
+
+                case KeyEvent.VK_UP:
+                    if(direction != 'D'){
+                        direction = 'U';
+                    }
+                break;
+
+                case KeyEvent.VK_DOWN:
+                if(direction != 'U'){
+                    direction = 'D';
+                }
+            break;
+
+            }
+
 
         }
     }
